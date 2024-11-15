@@ -50,7 +50,7 @@ $(NAME):	$(MY_OBJECTS)
 	ar rc $(NAME) $(MY_OBJECTS)	
 	ranlib $(NAME)
 
-$.o:	$(SRC_DIR)/%.c
+%.o:	$(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

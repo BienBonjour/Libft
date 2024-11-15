@@ -12,26 +12,35 @@
 
 #include "libft.h"
 
-static size_t	find_start(const char *s1)
+static int	is_in_set(char c, const char *set)
+{
+	while (*set)
+	{
+		if (c == *set)
+			return (1);
+		set++;
+	}
+	return (0);
+}
+
+static size_t	find_start(const char *s1, const char *set)
 {
 	size_t	start;
 
 	start = 0;
-	while (s1[start] && (s1[start] == ' ' || s1[start] == '\n'
-			|| s1[start] == '\t'))
+	while (s1[start] && is_in_set(s1[start], set))
 		start++;
 	return (start);
 }
 
-static size_t	find_end(const char *s1, size_t start)
+static size_t	find_end(const char *s1, size_t start, const char *set)
 {
 	size_t	end;
 
 	end = start;
 	while (s1[end])
 		end++;
-	while (end > start && (s1[end - 1] == ' ' || s1[end - 1] == '\n' || s1[end
-				- 1] == '\t'))
+	while (end > start && is_in_set(s1[end - 1], set))
 		end--;
 	return (end);
 }
@@ -60,8 +69,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (!s1 || !set)
 		return (NULL);
-	start = find_start(s1);
-	end = find_end(s1, start);
+	start = find_start(s1, set);
+	end = find_end(s1, start, set);
 	if (start >= end)
 		return (ft_strdup(""));
 	len = end - start;
